@@ -1,0 +1,18 @@
+.navbar {
+    background: #003049;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+}
+.navbar ul {
+    display: flex;
+    list-style: none;
+}
+.navbar ul li {
+    margin: 0 10px;
+}
+.navbar ul li a {
+    color: white;
+    text-decoration: none;
+}

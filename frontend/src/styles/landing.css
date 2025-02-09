@@ -1,0 +1,41 @@
+/* Estilos para el contenedor principal */
+.landing-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(to right, #4facfe, #00f2fe);
+    text-align: center;
+    color: white;
+}
+
+/* Título principal */
+.landing-container h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+/* Subtítulo o descripción */
+.landing-container p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+/* Botón de "Iniciar Sesión" */
+.btn {
+    background-color: #ff4b2b;
+    color: white;
+    font-size: 1.2rem;
+    padding: 12px 24px;
+    border-radius: 25px;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.2s;
+    font-weight: bold;
+}
+
+.btn:hover {
+    background-color: #ff1e00;
+    transform: scale(1.05);
+}
