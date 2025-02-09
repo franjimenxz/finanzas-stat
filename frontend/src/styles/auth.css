@@ -1,0 +1,106 @@
+/* === Contenedor de Autenticación (Login y Registro) === */
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #0d3c61, #1662a9); /* Azul degradado */
+}
+
+/* === Tarjeta del Formulario === */
+.auth-card {
+    background-color: #002b47; /* Azul oscuro elegante */
+    padding: 2.5rem;
+    border-radius: 10px;
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+    width: 420px;
+    text-align: center;
+    color: white;
+    transition: transform 0.3s ease-in-out;
+}
+
+.auth-card:hover {
+    transform: scale(1.02);
+}
+
+/* === Encabezado === */
+.auth-card h2 {
+    margin-bottom: 1.5rem;
+    font-size: 24px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* === Campos de Entrada === */
+.auth-card form input {
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #f8b400;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    transition: border-color 0.3s;
+}
+
+.auth-card form input:focus {
+    border-color: #e67e22;
+    outline: none;
+}
+
+/* === Botón de Enviar === */
+.auth-card form button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #f8b400;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.auth-card form button:hover {
+    background-color: #e67e22;
+    box-shadow: 0px 4px 10px rgba(230, 126, 34, 0.5);
+}
+
+/* === Mensaje de Error === */
+.error-message {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 1rem;
+    background: rgba(255, 0, 0, 0.2);
+    padding: 8px;
+    border-radius: 4px;
+}
+
+/* === Enlace de Registro/Login (Opcional) === */
+.auth-footer {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.auth-footer a {
+    color: #f8b400;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease-in-out;
+}
+
+.auth-footer a:hover {
+    color: #e67e22;
+}
+
+/* === Responsividad (Móvil) === */
+@media (max-width: 500px) {
+    .auth-card {
+        width: 90%;
+        padding: 2rem;
+    }
+}

@@ -1,41 +1,151 @@
-/* Estilos para el contenedor principal */
+/* === General === */
 .landing-container {
+    font-family: 'Arial', sans-serif;
+    color: #fff;
+    background: linear-gradient(to bottom, #00264d, #00509e); /* Más suave */
+    text-align: center;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background: linear-gradient(to right, #4facfe, #00f2fe);
-    text-align: center;
-    color: white;
+    padding-top: 80px;
 }
 
-/* Título principal */
-.landing-container h1 {
+/* === Hero Section === */
+.hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 80px 10%;
+    background: #00509e;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    margin: 20px auto;
+    max-width: 1100px;
+}
+
+.hero-content {
+    max-width: 50%;
+    text-align: left;
+}
+
+.hero h1 {
     font-size: 3rem;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     font-weight: bold;
 }
 
-/* Subtítulo o descripción */
-.landing-container p {
+.hero p {
     font-size: 1.2rem;
     margin-bottom: 20px;
+    opacity: 0.9;
 }
 
-/* Botón de "Iniciar Sesión" */
-.btn {
-    background-color: #ff4b2b;
-    color: white;
-    font-size: 1.2rem;
-    padding: 12px 24px;
-    border-radius: 25px;
+/* === Botones de Acción === */
+.hero-buttons {
+    margin-top: 20px;
+}
+
+.hero-buttons .btn {
     text-decoration: none;
-    transition: background-color 0.3s, transform 0.2s;
+    background: #ffba08;
+    color: #003049;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 18px;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+    display: inline-block;
+    margin-right: 15px;
+}
+
+.hero-buttons .btn:hover {
+    background: #ffd166;
+    transform: scale(1.05);
+}
+
+/* === Secciones === */
+.section {
+    padding: 80px 10%;
+    background: #f8f9fa;
+    color: #333;
+    text-align: center;
+}
+
+.section h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
     font-weight: bold;
 }
 
-.btn:hover {
-    background-color: #ff1e00;
+/* === Equipo === */
+.team-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+
+.team-member {
+    text-align: center;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.team-member:hover {
+    transform: translateY(-5px);
+}
+
+.team-member img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
+
+/* === Servicios === */
+.services-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.service {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    width: 30%;
+    transition: transform 0.3s ease-in-out;
+}
+
+.service:hover {
     transform: scale(1.05);
+}
+
+/* === Partners === */
+.partners-container {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+}
+
+.partners-container img {
+    width: 120px;
+    height: auto;
+    transition: transform 0.3s ease-in-out;
+}
+
+.partners-container img:hover {
+    transform: scale(1.1);
+}
+
+/* === Footer === */
+.footer {
+    background: #00264d;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-size: 14px;
 }

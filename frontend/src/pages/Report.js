@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { reportIssue } from "../services/api";
+import "../styles/feedback.css"; // Importar el CSS unificado
 
 const ReportIssue = () => {
     const [descripcion, setDescripcion] = useState("");
@@ -10,7 +11,7 @@ const ReportIssue = () => {
         const token = localStorage.getItem("token");
 
         try {
-            const response = await reportIssue(token, descripcion);
+            await reportIssue(token, descripcion);
             setMessage("Problema reportado correctamente");
             setDescripcion("");
         } catch (error) {
@@ -19,12 +20,17 @@ const ReportIssue = () => {
     };
 
     return (
-        <div>
+        <div className="feedback-container report-container">
             <h2>Reportar Problema</h2>
-            {message && <p>{message}</p>}
+            {message && <p className={message.includes("Error") ? "error-message" : "feedback-message"}>{message}</p>}
             <form onSubmit={handleSubmit}>
-                <textarea placeholder="Describe tu problema..." value={descripcion} onChange={(e) => setDescripcion(e.target.value)} required />
-                <button type="submit">Enviar</button>
+                <textarea
+                    placeholder="Describe tu problema..."
+                    value={descripcion}
+                    onChange={(e) => setDescripcion(e.target.value)}
+                    required
+                />
+                <button type="submit">Enviar Reporte</button>
             </form>
         </div>
     );

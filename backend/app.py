@@ -4,6 +4,8 @@ from config import Config
 
 from routes.auth import auth_bp
 from routes.dashboard import dashboard_bp
+from routes.categories import categories_bp
+from routes.metodospago import payment_bp
 from routes.transactions import transactions_bp
 from routes.history import history_bp
 from routes.integrations import integrations_bp
@@ -18,6 +20,8 @@ cors.init_app(app)
 
 app.register_blueprint(auth_bp)
 app.register_blueprint(dashboard_bp)
+app.register_blueprint(payment_bp)
+app.register_blueprint(categories_bp)
 app.register_blueprint(transactions_bp)
 app.register_blueprint(history_bp)  # 📌 NUEVO: Historial
 app.register_blueprint(integrations_bp)

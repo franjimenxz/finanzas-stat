@@ -1,0 +1,49 @@
+/* Footer mejorado */
+.footer {
+    width: 100%;
+    background-color: #00264d; /* Azul oscuro para coherencia con el sidebar */
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+    font-size: 14px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    box-shadow: 0px -4px 6px rgba(0, 0, 0, 0.15); /* Sombra en la parte superior */
+    z-index: 10;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  /* Contenido del footer */
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  /* Estilos del texto en el footer */
+  .footer-text {
+    font-size: 14px;
+    opacity: 0.8;
+  }
+  
+  /* Estilos para los enlaces del footer */
+  .footer-links {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .footer-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease-in-out;
+  }
+  
+  .footer-links a:hover {
+    color: #f8d210; /* Amarillo dorado para resaltar */
+  }
+  

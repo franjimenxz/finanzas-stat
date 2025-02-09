@@ -77,3 +77,4 @@ def get_expenses():
         "categoria": e.categoria.nombre,
         "metodo_pago": e.metodo_pago.nombre
     } for e in egresos])
+

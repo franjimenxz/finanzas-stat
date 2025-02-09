@@ -1,0 +1,128 @@
+/* === Barra de Navegación === */
+.navbar {
+    display: flex;
+    justify-content: center; /* Centra el contenido */
+    align-items: center;
+    padding: 15px 40px;
+    background-color: #002147; /* Azul oscuro */
+    color: white;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    transition: all 0.3s ease-in-out;
+}
+
+/* === Logo === */
+.navbar h1 {
+    font-size: 26px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: transform 0.3s ease-in-out;
+    margin-right: auto; /* Lo mantiene alineado a la izquierda */
+}
+
+.navbar h1:hover {
+    transform: scale(1.05);
+}
+
+/* === Menú de Navegación === */
+.navbar ul {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+    margin: 0;
+    padding: 0;
+}
+
+/* Centrar los elementos en la barra */
+.navbar ul {
+    display: flex;
+    justify-content: center; /* Centra los elementos */
+    align-items: center;
+    flex-grow: 1; /* Permite que se distribuya uniformemente */
+}
+
+/* === Enlaces del Navbar === */
+.navbar ul li {
+    display: inline;
+}
+
+.navbar ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 12px 20px;
+    transition: all 0.3s ease-in-out;
+    border-radius: 5px;
+}
+
+.navbar ul li a:hover,
+.navbar ul li a.active {
+    background-color: #f8b400; /* Color destacado */
+    color: #002147;
+    box-shadow: 0 4px 8px rgba(248, 180, 0, 0.3);
+}
+
+/* === Icono de Menú Hamburguesa === */
+.menu-toggle {
+    display: none;
+    font-size: 26px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+.menu-toggle:hover {
+    transform: scale(1.1);
+}
+
+/* === Navbar Responsive (Móvil) === */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block; /* Muestra el icono hamburguesa */
+        position: absolute;
+        right: 20px;
+    }
+
+    .navbar {
+        justify-content: space-between; /* Para acomodar el menú */
+    }
+
+    .navbar ul {
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        flex-direction: column;
+        background: #002147;
+        display: none;
+        text-align: center;
+        gap: 0;
+        padding: 15px 0;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .navbar ul.open {
+        display: flex; /* Muestra el menú cuando se activa */
+    }
+
+    .navbar ul li {
+        width: 100%;
+    }
+
+    .navbar ul li a {
+        display: block;
+        padding: 15px;
+        font-size: 18px;
+    }
+
+    .navbar ul li a:hover {
+        background-color: #f8b400;
+        color: #002147;
+    }
+}

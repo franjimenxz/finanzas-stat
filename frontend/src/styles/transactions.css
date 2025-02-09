@@ -1,0 +1,62 @@
+/* Estilos generales para ingreso y egreso */
+.ingreso-container,
+.egreso-container {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Título */
+.ingreso-container h2,
+.egreso-container h2 {
+    color: #003366;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Formulario */
+.ingreso-container form,
+.egreso-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Campos de entrada */
+.ingreso-container input,
+.egreso-container input,
+.ingreso-container select,
+.egreso-container select {
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Botón de envío */
+.ingreso-container button,
+.egreso-container button {
+    background-color: #00509e;
+    color: white;
+    padding: 12px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.ingreso-container button:hover,
+.egreso-container button:hover {
+    background-color: #003366;
+}
+
+/* Mensaje de error */
+.error-message {
+    color: red;
+    font-size: 14px;
+}
