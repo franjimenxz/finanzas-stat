@@ -1,11 +1,11 @@
 const API_URL = "http://127.0.0.1:5000/api"; // Asegúrate de que esta URL sea la correcta
 
 // Función para registrar un usuario
-export const register = async (usuario, nombre, dni, contrasena) => {
+export const register = async (usuario, nombre, dni, email, contrasena) => {
     const response = await fetch(`${API_URL}/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ usuario, nombre, dni, contrasena }),
+        body: JSON.stringify({ usuario, nombre, dni, email, contrasena }),  // 📌 Agregado email
     });
 
     if (!response.ok) {
@@ -31,25 +31,29 @@ export const login = async (usuario, contrasena) => {
 };
 
 // Función para obtener datos del Dashboard
-export const getDashboard = async () => {
-    const token = localStorage.getItem("token");
-    console.log("Token obtenido de localStorage:", token); // Verifica si está obteniendo el token
+export const getDashboard = async (token, fecha) => {
+    try {
+        const url = fecha ? `${API_URL}/dashboard?fecha=${fecha}` : `${API_URL}/dashboard`;
 
-    const response = await fetch(`${API_URL}/dashboard`, {
-        method: "GET",
-        headers: { 
-            "Authorization": `Bearer ${token}`,
-            "Content-Type": "application/json"
-        },
-    });
+        const response = await fetch(url, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        });
 
-    if (!response.ok) {
-        const errorResponse = await response.json();
-        console.log("Error en la respuesta:", errorResponse); // Imprime el error devuelto por Flask
-        throw new Error("Error al obtener datos del dashboard");
+        if (!response.ok) {
+            throw new Error(`Error en la API: ${response.status} - ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log("Datos del Dashboard obtenidos:", data);
+        return data;
+    } catch (error) {
+        console.error("Error al obtener datos del Dashboard:", error);
+        return { ingresos_totales: 0, egresos_totales: 0, ingresos_por_categoria: [], egresos_por_categoria: [] };
     }
-
-    return response.json();
 };
 
 
@@ -157,18 +161,143 @@ export const getCategories = async (token, tipo) => {
     }
     return response.json();
 };
-// Función para obtener métodos de pago
-export const getPaymentMethods = async (token) => {
-    const response = await fetch(`${API_URL}/payment_methods`, {
-      method: "GET",
-      headers: {
-        "Authorization": `Bearer ${token}`,
-        "Content-Type": "application/json"
-      }
+
+
+
+  export const getAdminDashboard = async (token) => {
+    console.log("Token enviado:", token);  // 👀 Verifica si hay token
+
+    const response = await fetch("http://127.0.0.1:5000/api/admin", {
+        method: "GET",
+        headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+        }
     });
+
+    const data = await response.json();
+    console.log("Usuarios recibidos:", data); // 👀 Verifica los datos recibidos
+
     if (!response.ok) {
-      throw new Error("Error al obtener métodos de pago");
+        throw new Error("Error al obtener datos del administrador");
+    }
+
+    return data;
+};
+
+
+// Agregar un usuario
+export const addUser = async (token, userData) => {
+    const response = await fetch(`${API_URL}/admin/add_user`, {
+        method: "POST",
+        headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(userData)
+    });
+
+    if (!response.ok) {
+        throw new Error("Error al agregar usuario");
     }
     return response.json();
-  };
-  
+};
+
+// Eliminar usuario
+export const deleteUser = async (token, legajo) => {
+    const response = await fetch(`${API_URL}/admin/delete_user/${legajo}`, {
+        method: "DELETE",
+        headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+        }
+    });
+
+    if (!response.ok) {
+        throw new Error("Error al eliminar usuario");
+    }
+    return response.json();
+};
+
+// Agregar una categoría
+export const addCategory = async (token, categoryData) => {
+    const response = await fetch(`${API_URL}/categories`, {
+        method: "POST",
+        headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(categoryData)
+    });
+
+    if (!response.ok) {
+        throw new Error("Error al agregar categoría");
+    }
+    return response.json();
+};
+
+export const getPaymentMethods = async (token) => {
+    try {
+        const response = await fetch(`${API_URL}/payment_methods`, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error en la API: ${response.status} - ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log("Métodos de pago obtenidos:", data);  // 🔹 Verifica qué devuelve la API
+
+        return data.metodos || [];  // ✅ Asegurar retorno correcto
+    } catch (error) {
+        console.error("Error al obtener métodos de pago:", error);
+        return []; // Retorna un array vacío en caso de error
+    }
+};
+
+
+// Agregar un método de pago
+export const addPaymentMethod = async (token, paymentData) => {
+    const response = await fetch(`${API_URL}/payment_methods`, {
+        method: "POST",
+        headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(paymentData)
+    });
+
+    if (!response.ok) {
+        throw new Error("Error al agregar método de pago");
+    }
+    return response.json();
+};
+export const getDashboardData = async (token, fecha) => {
+    try {
+        const url = fecha ? `${API_URL}/api/dashboard?fecha=${fecha}` : `${API_URL}/api/dashboard`;
+
+        const response = await fetch(url, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error en la API: ${response.status} - ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log("Datos del Dashboard obtenidos:", data);
+        return data;
+    } catch (error) {
+        console.error("Error al obtener datos del Dashboard:", error);
+        return { ingresos_totales: 0, egresos_totales: 0, ingresos_por_categoria: [], egresos_por_categoria: [] };
+    }
+};

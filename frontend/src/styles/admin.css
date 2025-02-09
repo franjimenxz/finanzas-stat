@@ -1,0 +1,128 @@
+.admin-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+/* Título Principal */
+.admin-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #003366;
+    font-size: 24px;
+}
+
+/* Subtítulos */
+.admin-container h3 {
+    margin-top: 20px;
+    color: #003366;
+}
+
+/* TABLA DE USUARIOS */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+/* Estilos para las celdas */
+th, td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+/* Estilos para los encabezados */
+th {
+    background-color: #003366;
+    color: white;
+}
+
+/* Ajuste del ancho de columnas */
+th:nth-child(1), td:nth-child(1) { width: 10%; } /* Legajo */
+th:nth-child(2), td:nth-child(2) { width: 20%; } /* Nombre */
+th:nth-child(3), td:nth-child(3) { width: 20%; } /* Usuario */
+th:nth-child(4), td:nth-child(4) { width: 30%; word-break: break-word; } /* Email */
+th:nth-child(5), td:nth-child(5) { width: 10%; } /* Rol */
+th:nth-child(6), td:nth-child(6) { width: 10%; text-align: center; } /* Acción */
+
+/* Alternar colores en filas */
+tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+/* FORMULARIOS */
+.admin-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 600px;
+    margin: 10px auto;
+}
+
+/* Input y select */
+.admin-form input,
+.admin-form select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Botón de formularios */
+.admin-form button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background 0.3s;
+}
+
+.admin-form button:hover {
+    background-color: #0056b3;
+}
+
+/* BOTÓN DE ELIMINAR */
+.delete-btn {
+    background-color: #dc3545;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
+}
+
+/* Mensajes de error */
+.error {
+    text-align: center;
+    color: red;
+    font-weight: bold;
+}
+
+/* RESPONSIVIDAD */
+@media (max-width: 768px) {
+    table {
+        font-size: 14px;
+    }
+
+    th, td {
+        padding: 8px;
+    }
+
+    .admin-form {
+        width: 100%;
+    }
+}

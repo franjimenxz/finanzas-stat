@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import "../styles/Layout.css"; // Importar estilos mejorados
+import { jwtDecode } from "jwt-decode";
+import "../styles/Layout.css";
 
 const Sidebar = ({ setAuth }) => {
   const navigate = useNavigate();
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const decoded = jwtDecode(token);
+      setIsAdmin(decoded.rol === "admin");
+    }
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -20,10 +30,10 @@ const Sidebar = ({ setAuth }) => {
           <li><NavLink to="/ingreso">Ingresar Ingreso</NavLink></li>
           <li><NavLink to="/egreso">Ingresar Egreso</NavLink></li>
           <li><NavLink to="/historial">Historial</NavLink></li>
+          {isAdmin && <li><NavLink to="/admin">Administración</NavLink></li>}
         </ul>
       </nav>
 
-      {/* Botones inferiores */}
       <div className="sidebar-bottom">
         <button className="btn-rate" onClick={() => navigate("/calificar")}>
           Calificar

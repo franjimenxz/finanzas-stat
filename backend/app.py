@@ -1,6 +1,7 @@
 from flask import Flask
 from extensions import db, migrate, jwt, cors
 from config import Config
+from dotenv import load_dotenv
 
 from routes.auth import auth_bp
 from routes.dashboard import dashboard_bp
@@ -9,9 +10,12 @@ from routes.metodospago import payment_bp
 from routes.transactions import transactions_bp
 from routes.history import history_bp
 from routes.integrations import integrations_bp
+from routes.admin import admin_bp
 
 app = Flask(__name__)
 app.config.from_object(Config)
+load_dotenv()
+
 
 db.init_app(app)
 migrate.init_app(app, db)
@@ -25,6 +29,8 @@ app.register_blueprint(categories_bp)
 app.register_blueprint(transactions_bp)
 app.register_blueprint(history_bp)  # 📌 NUEVO: Historial
 app.register_blueprint(integrations_bp)
+app.register_blueprint(admin_bp)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

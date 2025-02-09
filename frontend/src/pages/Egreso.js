@@ -1,25 +1,26 @@
-// src/pages/Egreso.js
 import React, { useState, useEffect } from "react";
-import { addExpense, getCategories, getPaymentMethods } from "../services/api";
+import { addExpense, getCategories, getPaymentMethods } from "../services/api"; 
 import { useNavigate } from "react-router-dom";
 import "../styles/transactions.css";
+
 const Egreso = () => {
   const [descripcion, setDescripcion] = useState("");
   const [importe, setImporte] = useState("");
   const [idcategoria, setIdcategoria] = useState("");
   const [idMetodoPago, setIdMetodoPago] = useState("");
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState([]); 
   const [paymentMethods, setPaymentMethods] = useState([]);
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  // Cargar categorías para egresos
+  // 🔹 Cargar categorías de egresos
   useEffect(() => {
     const fetchCategories = async () => {
       const token = localStorage.getItem("token");
       try {
         const response = await getCategories(token, "egreso");
-        setCategories(response.categories);
+        console.log("Categorías recibidas en React:", response);
+        setCategories(response.categories || []); // ✅ Acceder correctamente al array
       } catch (err) {
         console.error("Error al obtener categorías:", err);
         setError("Error al obtener categorías");
@@ -27,22 +28,28 @@ const Egreso = () => {
     };
     fetchCategories();
   }, []);
-
-  // Cargar métodos de pago
+  
   useEffect(() => {
     const fetchPaymentMethods = async () => {
-      const token = localStorage.getItem("token");
-      try {
-        const response = await getPaymentMethods(token);
-        // Suponemos que la respuesta tiene la forma: { paymentMethods: [ {id, nombre}, ... ] }
-        setPaymentMethods(response.paymentMethods);
-      } catch (err) {
-        console.error("Error al obtener métodos de pago:", err);
-        setError("Error al obtener métodos de pago");
-      }
+        const token = localStorage.getItem("token");
+        try {
+            const response = await getPaymentMethods(token);
+            console.log("Métodos de pago obtenidos en React:", response);
+
+            // ✅ No es un objeto con `metodos`, sino un array directamente
+            if (Array.isArray(response)) {
+                setPaymentMethods(response);
+            } else {
+                console.error("Formato inesperado en métodos de pago:", response);
+                setPaymentMethods([]);
+            }
+        } catch (err) {
+            console.error("Error al obtener métodos de pago:", err);
+            setError("Error al obtener métodos de pago");
+        }
     };
     fetchPaymentMethods();
-  }, []);
+}, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -78,6 +85,7 @@ const Egreso = () => {
           onChange={(e) => setImporte(e.target.value)}
           required
         />
+
         {/* Selector de categorías */}
         <select
           value={idcategoria}
@@ -85,12 +93,17 @@ const Egreso = () => {
           required
         >
           <option value="">Seleccione una categoría</option>
-          {categories.map((cat) => (
-            <option key={cat.id} value={cat.id}>
-              {cat.nombre}
-            </option>
-          ))}
+          {categories.length > 0 ? (
+            categories.map((cat) => (
+              <option key={cat.id} value={cat.id}>
+                {cat.nombre}
+              </option>
+            ))
+          ) : (
+            <option disabled>Cargando categorías...</option>
+          )}
         </select>
+
         {/* Selector de método de pago */}
         <select
           value={idMetodoPago}
@@ -98,12 +111,17 @@ const Egreso = () => {
           required
         >
           <option value="">Seleccione un método de pago</option>
-          {paymentMethods.map((method) => (
-            <option key={method.id} value={method.id}>
-              {method.nombre}
-            </option>
-          ))}
+          {paymentMethods.length > 0 ? (
+            paymentMethods.map((method) => (
+              <option key={method.id} value={method.id}>
+                {method.nombre}
+              </option>
+            ))
+          ) : (
+            <option disabled>Cargando métodos de pago...</option>
+          )}
         </select>
+
         <button type="submit">Registrar Egreso</button>
       </form>
     </div>

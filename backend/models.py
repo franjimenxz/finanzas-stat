@@ -8,6 +8,7 @@ class Usuario(db.Model):
     nombre = db.Column(db.String(255), nullable=False)
     dni = db.Column(db.String(20), unique=True, nullable=False)
     usuario = db.Column(db.String(255), unique=True, nullable=False)
+    email = db.Column(db.String(255), unique=True, nullable=False)
     contrasena = db.Column(db.String(255), nullable=False)
     rol = db.Column(db.String(50), nullable=False, default='usuario')
 
@@ -22,7 +23,18 @@ class Categoria(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(255), nullable=False)
     tipo = db.Column(db.String(50), nullable=False)  # "Ingreso" o "Egreso"
+    @classmethod
+    def obtener_por_tipo(cls, tipo):
+        """Devuelve todas las categorías de un tipo específico."""
+        return cls.query.filter_by(tipo=tipo).all()
 
+    @classmethod
+    def crear(cls, nombre, tipo):
+        """Crea una nueva categoría."""
+        nueva_categoria = cls(nombre=nombre, tipo=tipo)
+        db.session.add(nueva_categoria)
+        db.session.commit()
+        return nueva_categoria
 class MetodoPago(db.Model):
     __tablename__ = 'metodopago'
     id = db.Column(db.Integer, primary_key=True)
@@ -39,7 +51,10 @@ class Ingreso(db.Model):
 
     categoria = db.relationship('Categoria', backref='ingresos')
     usuario = db.relationship('Usuario', backref='ingresos')
-
+    @property
+    def categoria_nombre(self):
+        return self.categoria.nombre if self.categoria else "Sin categoría"
+    
 class Egreso(db.Model):
     __tablename__ = 'egresos'
     codigo = db.Column(db.Integer, primary_key=True)
@@ -53,3 +68,7 @@ class Egreso(db.Model):
     categoria = db.relationship('Categoria', backref='egresos')
     usuario = db.relationship('Usuario', backref='egresos')
     metodo_pago = db.relationship('MetodoPago', backref='egresos')
+
+    @property
+    def categoria_nombre(self):
+        return self.categoria.nombre if self.categoria else "Sin categoría"

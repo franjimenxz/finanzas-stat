@@ -13,13 +13,6 @@
     margin-bottom: 20px;
 }
 
-.search-box {
-    padding: 8px 12px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    width: 250px;
-}
-
 .user-info {
     display: flex;
     align-items: center;
@@ -30,10 +23,25 @@
     font-weight: bold;
 }
 
-.user-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+/* 🔹 Contenedor del filtro de fecha */
+.filter-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+.filter-container label {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.filter-container input[type="date"] {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
 /* Resumen de ingresos y egresos */
@@ -62,6 +70,7 @@
     font-weight: bold;
 }
 
+/* 🔹 Colores para los resúmenes */
 .red {
     background-color: #ff6b6b;
     color: white;
@@ -77,10 +86,10 @@
     color: white;
 }
 
-/* Sección de gráficos */
+/* 🔹 Sección de gráficos mejor distribuida */
 .charts-container {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Diseño adaptable */
     gap: 20px;
 }
 
@@ -89,4 +98,5 @@
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { login } from "../services/api";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "../styles/auth.css"; // Asegúrate de que la ruta sea correcta
 
 const Login = ({ setAuth }) => {
@@ -50,9 +50,15 @@ const Login = ({ setAuth }) => {
           />
           <button type="submit">Ingresar</button>
         </form>
+
+        {/* 📌 Nuevo enlace para registrarse */}
+        <p className="register-link">
+          ¿No tienes cuenta? <Link to="/register">Regístrate aquí</Link>
+        </p>
       </div>
     </div>
   );
 };
 
 export default Login;
+

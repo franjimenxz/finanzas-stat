@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { register } from "../services/api"; // La función register espera: (usuario, nombre, dni, contrasena)
+import { register } from "../services/api"; 
 import { useNavigate } from "react-router-dom";
-import "../styles/auth.css";  // Importa el archivo de estilos para autenticación
+import "../styles/auth.css"; 
 
 const Register = () => {
-  // Define los estados para cada campo
   const [usuario, setUsuario] = useState("");
   const [nombre, setNombre] = useState("");
   const [dni, setDni] = useState("");
+  const [email, setEmail] = useState("");  // 📌 Nuevo campo de email
   const [contrasena, setContrasena] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -17,10 +17,9 @@ const Register = () => {
     setError("");
 
     try {
-      // Envía los parámetros en el orden correcto: usuario, nombre, dni, contrasena
-      const data = await register(usuario, nombre, dni, contrasena);
+      // 📌 Enviar email junto con los demás datos
+      const data = await register(usuario, nombre, dni, email, contrasena);
       console.log("Usuario registrado:", data);
-      // Una vez registrado, redirige al login
       navigate("/login");
     } catch (err) {
       console.error("Error en handleSubmit:", err);
@@ -53,6 +52,13 @@ const Register = () => {
             placeholder="DNI"
             value={dni}
             onChange={(e) => setDni(e.target.value)}
+            required
+          />
+          <input
+            type="email"  // 📌 Input de email
+            placeholder="Correo Electrónico"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
           <input
