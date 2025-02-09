@@ -87,12 +87,14 @@ const Dashboard = () => {
       </div>
 
       {/* 📌 Selector de fecha */}
+      <div className="filter-container">
       <label>Filtrar por Fecha:</label>
       <input
         type="date"
         value={fechaSeleccionada}
         onChange={(e) => setFechaSeleccionada(e.target.value)}
       />
+      </div>
 
       <div className="dashboard-summary">
         <div className="summary-card red">
