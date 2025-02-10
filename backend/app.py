@@ -34,6 +34,9 @@ app.register_blueprint(integrations_bp)
 app.register_blueprint(admin_bp)
 app.register_blueprint(tickets_bp)
 
+@app.route("/")
+def home():
+    return "Api funcionando"
 
 if __name__ == '__main__':
     app.run(debug=True)
