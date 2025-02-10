@@ -11,6 +11,8 @@ from routes.transactions import transactions_bp
 from routes.history import history_bp
 from routes.integrations import integrations_bp
 from routes.admin import admin_bp
+from routes.tickets import tickets_bp
+
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -30,6 +32,7 @@ app.register_blueprint(transactions_bp)
 app.register_blueprint(history_bp)  # 📌 NUEVO: Historial
 app.register_blueprint(integrations_bp)
 app.register_blueprint(admin_bp)
+app.register_blueprint(tickets_bp)
 
 
 if __name__ == '__main__':

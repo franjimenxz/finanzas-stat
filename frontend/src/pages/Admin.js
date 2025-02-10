@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom"; // 📌 Importar useNavigate
 import { getAdminDashboard, addUser, deleteUser, addCategory, addPaymentMethod } from "../services/api";
 import "../styles/admin.css";
 
@@ -8,6 +9,8 @@ const AdminDashboard = () => {
     const [newUser, setNewUser] = useState({ usuario: "", nombre: "", dni: "", email: "", contrasena: "", rol: "usuario" });
     const [newCategory, setNewCategory] = useState({ nombre: "", tipo: "ingreso" });
     const [newPaymentMethod, setNewPaymentMethod] = useState({ nombre: "" });
+
+    const navigate = useNavigate(); // 📌 Hook para navegación
 
     useEffect(() => {
         fetchAdminData();
@@ -21,6 +24,10 @@ const AdminDashboard = () => {
         } catch (err) {
             setError("Acceso denegado o error al cargar usuarios.");
         }
+    };
+
+    const handleBackToDashboard = () => {
+        navigate("/dashboard"); // 📌 Redirigir al Dashboard
     };
 
     const handleAddUser = async (e) => {
@@ -71,6 +78,9 @@ const AdminDashboard = () => {
         <div className="admin-container">
             <h2>Panel de Administración</h2>
             {error && <p className="error">{error}</p>}
+
+            {/* 📌 Botón para volver al Dashboard */}
+            <button className="back-btn" onClick={handleBackToDashboard}>Volver al Dashboard</button>
 
             {/* Formulario para agregar usuario */}
             <h3>Agregar Usuario</h3>

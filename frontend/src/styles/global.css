@@ -1,70 +1,32 @@
 /* === Navbar Mejorado === */
 .navbar {
-    background: #00264d; /* Azul oscuro, coherente con sidebar y footer */
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave para destacar */
-    position: fixed;
-    width: 100%;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-  }
-  
-  /* Logo */
-  .navbar h1 {
-    font-size: 24px;
-    font-weight: bold;
-    letter-spacing: 1px;
-  }
-  
-  /* Estilos del menú */
-  .navbar ul {
-    display: flex;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  /* Elementos del menú */
-  .navbar ul li {
-    margin: 0 15px;
-  }
-  
-  /* Enlaces del menú */
-  .navbar ul li a {
-    color: white;
-    text-decoration: none;
-    font-size: 16px;
-    font-weight: 500;
-    padding: 10px 15px;
-    border-radius: 6px;
-    transition: background 0.3s ease-in-out, transform 0.2s;
-  }
-  
-  /* Hover en los enlaces */
-  .navbar ul li a:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: scale(1.05);
-  }
-  
-  /* === Navbar responsivo === */
-  @media (max-width: 768px) {
-    .navbar {
+  background: #00264d;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+/* === Navbar responsivo === */
+@media (max-width: 768px) {
+  .navbar {
       flex-direction: column;
       text-align: center;
-    }
-  
-    .navbar ul {
+  }
+
+  .navbar ul {
       flex-direction: column;
       margin-top: 10px;
-    }
-  
-    .navbar ul li {
-      margin: 10px 0;
-    }
   }
-  
+
+  .navbar ul li {
+      margin: 10px 0;
+  }
+}

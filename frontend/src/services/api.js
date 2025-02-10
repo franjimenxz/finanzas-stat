@@ -74,23 +74,7 @@ export const getHistory = async (token) => {
 
     return data;
 };
-// Función para reportar un problema (sistema de tickets)
-export const reportIssue = async (token, descripcion) => {
-    const response = await fetch(`${API_URL}/report`, {
-        method: "POST",
-        headers: {
-            "Authorization": `Bearer ${token}`,
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ descripcion }),
-    });
 
-    if (!response.ok) {
-        throw new Error("Error al enviar el reporte");
-    }
-
-    return response.json();
-};
 
 // Función para enviar una calificación con estrellas
 export const sendRating = async (token, rating) => {
@@ -299,5 +283,47 @@ export const getDashboardData = async (token, fecha) => {
     } catch (error) {
         console.error("Error al obtener datos del Dashboard:", error);
         return { ingresos_totales: 0, egresos_totales: 0, ingresos_por_categoria: [], egresos_por_categoria: [] };
+    }
+};
+export const getUserTickets = async (token) => {
+    try {
+        const response = await fetch(`${API_URL}/api/tickets`, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`,  // ✅ Enviar token correctamente
+                "Content-Type": "application/json"
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error en la API: ${response.status} - ${response.statusText}`);
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error("Error al obtener tickets:", error);
+        return []; // Retornar array vacío si falla
+    }
+};
+
+export const reportIssue = async (token, descripcion) => {
+    try {
+        const response = await fetch(`${API_URL}/api/tickets`, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${token}`,  // ✅ Enviar token correctamente
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ description: descripcion })
+        });
+
+        if (!response.ok) {
+            throw new Error("Error al reportar el problema.");
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error("Error al reportar problema:", error);
+        return { error: "No se pudo reportar el problema" };
     }
 };

@@ -1,14 +1,14 @@
-/* === General === */
+/* === Contenedor principal del Landing === */
 .landing-container {
     font-family: 'Arial', sans-serif;
     color: #fff;
-    background: linear-gradient(to bottom, #00264d, #00509e); /* Más suave */
+    background: linear-gradient(to bottom, #ffffff, #ffffff);
     text-align: center;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-top: 80px;
+    padding: 80px 10%;
 }
 
 /* === Hero Section === */
@@ -16,12 +16,13 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 80px 10%;
+    padding: 60px 10%;
     background: #00509e;
     border-radius: 10px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    margin: 20px auto;
     max-width: 1100px;
+    margin: 20px auto;
+    flex-wrap: wrap; /* 📌 Permitir que los elementos se acomoden en pantallas pequeñas */
 }
 
 .hero-content {
@@ -30,15 +31,14 @@
 }
 
 .hero h1 {
-    font-size: 3rem;
+    font-size: clamp(24px, 5vw, 48px);
     margin-bottom: 15px;
     font-weight: bold;
 }
 
 .hero p {
-    font-size: 1.2rem;
+    font-size: clamp(14px, 3vw, 18px);
     margin-bottom: 20px;
-    opacity: 0.9;
 }
 
 /* === Botones de Acción === */
@@ -64,10 +64,35 @@
     transform: scale(1.05);
 }
 
+/* 📌 Ajuste responsivo */
+@media (max-width: 768px) {
+    .hero {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero-content {
+        max-width: 100%;
+        text-align: center;
+    }
+
+    .hero-buttons {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .hero-buttons .btn {
+        width: 80%;
+        margin-bottom: 10px;
+    }
+}
+
+
 /* === Secciones === */
 .section {
     padding: 80px 10%;
-    background: #f8f9fa;
+    background: #ffffff;
     color: #333;
     text-align: center;
 }
@@ -148,4 +173,87 @@
     padding: 20px;
     text-align: center;
     font-size: 14px;
+}
+/* === Sección Nosotros Mejorada === */
+#nosotros {
+    padding: 60px 10%;
+    background: #ffffff;
+    color: #333;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+    max-width: 1100px;
+    margin: 40px auto;
+}
+
+#nosotros h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: #00509e;
+}
+
+#nosotros h3 {
+    font-size: 1.8rem;
+    margin-top: 30px;
+    font-weight: bold;
+    color: #003366;
+}
+
+#nosotros p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    max-width: 900px;
+    margin: 0 auto 20px;
+}
+
+#nosotros ul {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+#nosotros ul li {
+    font-size: 1.2rem;
+    padding: 10px 0;
+    border-bottom: 1px solid #ffffff;
+    font-weight: 500;
+}
+
+#nosotros ul li:last-child {
+    border-bottom: none;
+}
+
+#nosotros .casos-exito {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+#nosotros .caso {
+    background: #ffffff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    text-align: left;
+}
+
+#nosotros .caso strong {
+    color: #00509e;
+    font-size: 1.1rem;
+}
+
+#nosotros .cta {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-top: 30px;
+}
+
+#nosotros .cta span {
+    color: #00509e;
 }

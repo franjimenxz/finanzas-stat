@@ -1,4 +1,4 @@
-/* Estilos generales */
+/* === Contenedor General === */
 .layout-container {
   display: flex;
   min-height: 100vh;
@@ -6,12 +6,12 @@
   font-family: 'Arial', sans-serif;
 }
 
-/* Sidebar */
+/* === Sidebar === */
 .sidebar {
-  width: 280px;
-  background-color: #00264d; /* Azul oscuro */
+  width: 250px;
+  background-color: #00264d;
   color: #fff;
-  padding: 25px;
+  padding: 20px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -22,7 +22,7 @@
   transition: all 0.3s ease-in-out;
 }
 
-/* Logo */
+/* === Logo === */
 .sidebar h1 {
   font-size: 22px;
   margin-bottom: 30px;
@@ -31,7 +31,7 @@
   font-weight: bold;
 }
 
-/* Navegación */
+/* === Navegación === */
 .sidebar nav {
   width: 100%;
   flex: 1;
@@ -64,6 +64,34 @@
   background: rgba(255, 255, 255, 0.2);
   transform: translateX(5px);
 }
+
+/* 📌 Sidebar responsivo */
+@media (max-width: 768px) {
+  .sidebar {
+      width: 60px; /* 📌 Sidebar reducido */
+      padding: 10px;
+  }
+
+  .sidebar h1 {
+      display: none;
+  }
+
+  .sidebar nav ul li a {
+      justify-content: center;
+      font-size: 14px;
+      padding: 10px;
+  }
+
+  .sidebar nav ul li a i {
+      margin-right: 0;
+  }
+
+  .main-content {
+      margin-left: 60px;
+      padding: 20px;
+  }
+}
+
 
 /* Íconos en los botones */
 .sidebar nav ul li a i {

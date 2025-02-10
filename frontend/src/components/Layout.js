@@ -23,7 +23,7 @@ const Sidebar = ({ setAuth }) => {
 
   return (
     <aside className="sidebar">
-      <h1>STATS</h1>
+      <h1><NavLink to="/">STAT</NavLink></h1>
       <nav>
         <ul>
           <li><NavLink to="/dashboard">Dashboard</NavLink></li>
