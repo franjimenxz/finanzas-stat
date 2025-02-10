@@ -62,3 +62,122 @@ button:hover {
 .status.resuelto {
     color: #4caf50;
 }
+/* Contenedor de los tickets reportados */
+.ticket-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+/* Estilo de cada ticket */
+.ticket-item {
+    background-color: #f9f9f9;
+    border-left: 5px solid #007bff;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.ticket-item:hover {
+    transform: scale(1.02);
+}
+
+/* Estilo del título del ticket */
+.ticket-item strong {
+    font-size: 18px;
+    color: #333;
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Descripción del ticket */
+.ticket-item p {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+/* Estado del ticket */
+.status {
+    font-weight: bold;
+    padding: 6px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    text-transform: capitalize;
+    display: inline-block;
+}
+
+/* Estilos de colores según el estado */
+.status.pendiente {
+    background-color: #ffeb3b;
+    color: #856404;
+}
+
+.status.resuelto {
+    background-color: #4caf50;
+    color: white;
+}
+
+.status.en-progreso {
+    background-color: #ff9800;
+    color: white;
+}
+
+.status.cancelado {
+    background-color: #f44336;
+    color: white;
+}
+/* Estilos para la sección de calificación */
+.rating-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+/* Estilo de las estrellas */
+.star {
+    font-size: 32px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+/* Efecto de hover */
+.star:hover {
+    transform: scale(1.2);
+}
+
+/* Colores de estrellas */
+.gold {
+    color: #ffc107;
+}
+
+.gray {
+    color: #ccc;
+}
+
+/* Espaciado entre el botón y las estrellas */
+.feedback-container button {
+    margin-top: 15px;
+}
+
+/* Mensaje de confirmación */
+.feedback-message {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: #28a745;
+    margin-top: 10px;
+}
+
+/* Mensaje de error */
+.error-message {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: #dc3545;
+    margin-top: 10px;
+}

@@ -287,7 +287,7 @@ export const getDashboardData = async (token, fecha) => {
 };
 export const getUserTickets = async (token) => {
     try {
-        const response = await fetch(`${API_URL}/api/tickets`, {
+        const response = await fetch(`${API_URL}/tickets`, {
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${token}`,  // ✅ Enviar token correctamente
@@ -308,7 +308,7 @@ export const getUserTickets = async (token) => {
 
 export const reportIssue = async (token, descripcion) => {
     try {
-        const response = await fetch(`${API_URL}/api/tickets`, {
+        const response = await fetch(`${API_URL}/tickets`, {
             method: "POST",
             headers: {
                 "Authorization": `Bearer ${token}`,  // ✅ Enviar token correctamente

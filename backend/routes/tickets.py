@@ -18,10 +18,13 @@ def crear_ticket():
     """ Reportar un problema """
     user_id = get_jwt_identity()
     data = request.get_json()
+    print("Datos recibidos en backend:", data)  # ✅ Verificar qué está recibiendo
+    
     descripcion = data.get("description")
 
     if not descripcion:
         return jsonify({"error": "La descripción es obligatoria"}), 400
 
     resultado = report_issue(user_id, descripcion)
+    print("Respuesta de report_issue:", resultado)  # ✅ Verificar qué devuelve la API externa
     return jsonify(resultado), 201 if "error" not in resultado else 400

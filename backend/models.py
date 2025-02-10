@@ -72,3 +72,37 @@ class Egreso(db.Model):
     @property
     def categoria_nombre(self):
         return self.categoria.nombre if self.categoria else "Sin categoría"
+    
+class Reporte(db.Model):
+    __tablename__ = 'reportes'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    legajousuario = db.Column(db.Integer, db.ForeignKey('usuarios.legajo'), nullable=False)  # Usuario que reporta
+    descripcion = db.Column(db.Text, nullable=False)  # Descripción del problema
+    fecha_reporte = db.Column(db.DateTime, default=datetime.utcnow)  # Fecha del reporte
+    estado = db.Column(db.String(50), default="pendiente")  # Estado del reporte: "pendiente", "en proceso", "resuelto"
+
+    usuario = db.relationship('Usuario', backref='reportes')  # Relación con el usuario que reporta
+
+    @classmethod
+    def crear(cls, legajousuario, descripcion):
+        """Crea un nuevo reporte y lo guarda en la base de datos."""
+        nuevo_reporte = cls(legajousuario=legajousuario, descripcion=descripcion)
+        db.session.add(nuevo_reporte)
+        db.session.commit()
+        return nuevo_reporte
+
+    @classmethod
+    def obtener_por_usuario(cls, legajousuario):
+        """Obtiene todos los reportes de un usuario."""
+        return cls.query.filter_by(legajousuario=legajousuario).all()
+
+    @classmethod
+    def actualizar_estado(cls, reporte_id, nuevo_estado):
+        """Actualiza el estado de un reporte."""
+        reporte = cls.query.get(reporte_id)
+        if reporte:
+            reporte.estado = nuevo_estado
+            db.session.commit()
+            return reporte
+        return None

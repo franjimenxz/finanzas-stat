@@ -18,13 +18,15 @@ const ReportIssue = () => {
         const token = localStorage.getItem("token");
         try {
             const data = await getUserTickets(token);
-            setTickets(data);
+            console.log("Tickets obtenidos desde API:", data); // 📌 Verifica en la consola del navegador
+            setTickets(data.tickets || []); // Asegurar que `tickets` es un array
         } catch (err) {
             setError("Error al obtener los tickets");
         } finally {
             setLoading(false);
         }
     };
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
