@@ -1,9 +1,11 @@
 import os
+
 class Config:
-    SECRET_KEY = 'clave_secreta'
-    SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:TheLegends123@localhost/GestionFina'
+    SECRET_KEY = os.getenv('SECRET_KEY', 'clave_secreta')
+    SQLALCHEMY_DATABASE_URI = os.getenv('SQLALCHEMY_DATABASE_URI', 'postgresql://postgres:TheLegends123@db/gestionfina')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    JWT_SECRET_KEY = 'supersecreto'
+    JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY', 'supersecreto')
+
 
     # URLs de APIs externas (vacías por ahora)
     TICKETS_API_URL = None  # Se llenará cuando esté disponible
