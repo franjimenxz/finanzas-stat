@@ -7,10 +7,8 @@ RUN npm install
 COPY . .
 RUN npm run build
 
-# Usar Nginx para servir la app
-FROM nginx:1.21
-COPY --from=build /app/build /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/nginx.conf
+# Copiar el build al volumen compartido con Nginx
+RUN mkdir -p /app/build
+RUN cp -r /app/build /app/build_output
 
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["echo", "Frontend build listo"]

@@ -1,4 +1,4 @@
-const API_URL = "http://127.0.0.1:5000/api" // Asegúrate de que esta URL sea la correcta
+export const API_URL = import.meta.env.MODE === "development" ? "http://127.0.0.1:5000/STAT/api" : "/STAT/api";
 
 // Función para registrar un usuario
 export const register = async (usuario, nombre, dni, email, contrasena) => {
