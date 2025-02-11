@@ -19,9 +19,6 @@ app = Flask(__name__)
 frontend_folder= os.path.join(os.getcwd(),"../frontend")
 dist_folder = os.path.join(frontend_folder,"dist")
 
-
-
-
 @app.route("/",defaults={"filename":""})
 @app.route("/<path:filename>")
 def serve_frontend(filename):
@@ -37,7 +34,7 @@ load_dotenv()
 db.init_app(app)
 migrate.init_app(app, db)
 jwt.init_app(app)
-#cors.init_app(app)
+cors.init_app(app)
 
 app.register_blueprint(auth_bp)
 app.register_blueprint(dashboard_bp)
