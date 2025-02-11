@@ -14,10 +14,16 @@ from routes.admin import admin_bp
 from routes.tickets import tickets_bp
 
 import os
-frontend_folder= os.path.join(os.getcwd(),"frontend")
-dist_folder = os.path.join(frontend_folder, "build")
 
-app = Flask(__name__, static_folder=dist_folder, static_url_path="/")
+app = Flask(__name__,)
+
+frontend_folder= os.path.join(os.getcwd(),"","frontend")
+dist_folder = os.path.join(frontend_folder, "dist")
+
+@app.route("/", defaults={"filename":""})
+@app.route("/<path:filename>")
+def home(filename):
+       return send_from_directory(dist_folder, filename)
 
 
 app.config.from_object(Config)
@@ -27,7 +33,7 @@ load_dotenv()
 db.init_app(app)
 migrate.init_app(app, db)
 jwt.init_app(app)
-cors.init_app(app)
+#cors.init_app(app)
 
 app.register_blueprint(auth_bp)
 app.register_blueprint(dashboard_bp)
@@ -38,11 +44,6 @@ app.register_blueprint(history_bp)  # 📌 NUEVO: Historial
 app.register_blueprint(integrations_bp)
 app.register_blueprint(admin_bp)
 app.register_blueprint(tickets_bp)
-
-@app.route("/", defaults={"filename":"index.html"})
-@app.route("/<path:filename>")
-def home(filename):
-    return send_from_directory(dist_folder, filename)
 
 if __name__ == '__main__':
     app.run(debug=True)

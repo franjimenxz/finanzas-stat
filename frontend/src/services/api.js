@@ -1,4 +1,4 @@
-const API_URL = "http://finanzas-stat.onrender.com/api"; // Asegúrate de que esta URL sea la correcta
+export const API_URL = import.meta.MODE === "development" ? "https://127.0.0.1:5000" : "/api"; // Asegúrate de que esta URL sea la correcta
 
 // Función para registrar un usuario
 export const register = async (usuario, nombre, dni, email, contrasena) => {
