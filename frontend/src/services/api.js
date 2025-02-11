@@ -1,4 +1,4 @@
-export const API_URL = import.meta.MODE === "development" ? "https://finanzas-stat.onrender.com" : "/api"; // Asegúrate de que esta URL sea la correcta
+export const API_URL = "https://finanzas-stat.onrender.com/api"; // Asegúrate de que esta URL sea la correcta
 
 // Función para registrar un usuario
 export const register = async (usuario, nombre, dni, email, contrasena) => {
