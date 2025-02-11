@@ -14,14 +14,19 @@ from routes.admin import admin_bp
 from routes.tickets import tickets_bp
 
 import os
+app = Flask(__name__)
+
 frontend_folder= os.path.join(os.getcwd(),"../frontend")
-app = Flask(__name__,static_folder=frontend_folder)
+dist_folder = os.path.join(frontend_folder,"dist")
 
 
 
-@app.route("/", defaults={"filename":"index.html"})
+
+@app.route("/",defaults={"filename":""})
 @app.route("/<path:filename>")
 def serve_frontend(filename):
+       if not filename:
+              filename = "index.html"
        return send_from_directory(app.static_folder, filename)
 
 
