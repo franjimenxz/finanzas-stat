@@ -23,7 +23,7 @@ const App = () => {
       <Routes>
         {/* 🌎 Rutas públicas con Navbar y Footer */}
         <Route
-          path="/STAT"
+          path="/"
           element={
             <>
               <Navbar />
