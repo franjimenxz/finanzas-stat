@@ -20,6 +20,10 @@ services:
       - db
     environment:
       SQLALCHEMY_DATABASE_URI: postgresql://postgre:TheLegends123@db/gestionfina
+      MAIL_SERVER: smtp.gmail.com
+      MAIL_PORT: 587
+      MAIL_USERNAME: "financierastat@gmail.com"
+      MAIL_PASSWORD: "gzsv rjwl qcjr umxk"
     ports:
       - "5000:5000"
 
@@ -28,6 +32,8 @@ services:
     restart: always
     depends_on:
       - backend
+    expose:
+      - "3000"
 
   nginx:
     image: nginx:latest
@@ -39,7 +45,7 @@ services:
       - "80:80"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./frontend/build:/usr/share/nginx/html
 
 volumes:
   pgdata:
+

@@ -1,4 +1,4 @@
-export const API_URL = import.meta.env.MODE === "development" ? "http://127.0.0.1:5000/STAT/api" : "/STAT/api";
+const API_URL = "http://18.231.170.224:5000/api";
 
 // Función para registrar un usuario
 export const register = async (usuario, nombre, dni, email, contrasena) => {
@@ -76,24 +76,6 @@ export const getHistory = async (token) => {
 };
 
 
-// Función para enviar una calificación con estrellas
-export const sendRating = async (token, rating) => {
-    const response = await fetch(`${API_URL}/rate`, {
-        method: "POST",
-        headers: {
-            "Authorization": `Bearer ${token}`,
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ rating }),
-    });
-
-    if (!response.ok) {
-        throw new Error("Error al enviar calificación");
-    }
-
-    return response.json();
-};
-
 export const addIncome = async (token, descripcion, importe, idcategoria) => {
     const response = await fetch(`${API_URL}/add_income`, {
         method: "POST",
@@ -151,7 +133,7 @@ export const getCategories = async (token, tipo) => {
   export const getAdminDashboard = async (token) => {
     console.log("Token enviado:", token);  // 👀 Verifica si hay token
 
-    const response = await fetch("http://127.0.0.1:5000/api/admin", {
+    const response = await fetch(`${API_URL}/admin`, {
         method: "GET",
         headers: {
             "Authorization": `Bearer ${token}`,
@@ -325,5 +307,73 @@ export const reportIssue = async (token, descripcion) => {
     } catch (error) {
         console.error("Error al reportar problema:", error);
         return { error: "No se pudo reportar el problema" };
+    }
+};
+export const deleteIncome = async (token, id) => {
+    const response = await fetch(`${API_URL}/history/delete_income/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!response.ok) {
+      throw new Error("Error al eliminar el ingreso");
+    }
+    return response.json();
+  };
+  
+  export const deleteExpense = async (token, id) => {
+    const response = await fetch(`${API_URL}/delete_expense/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!response.ok) {
+      throw new Error("Error al eliminar el egreso");
+    }
+    return response.json();
+  };
+  export const getUserRating = async (token) => {
+    try {
+        const response = await fetch(`${API_URL}/review`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error("No se pudo obtener la calificación previa.");
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error("Error al obtener la calificación:", error);
+        return { rating: null, comentario: "" }; // Devuelve valores por defecto si falla
+    }
+};
+
+export const sendRating = async (token, rating, comentario) => {
+    try {
+        const response = await fetch(`${API_URL}/review`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ rating, comentario }),
+        });
+
+        if (!response.ok) {
+            throw new Error("Error al enviar la calificación.");
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error("Error al enviar la calificación:", error);
+        throw error;
     }
 };

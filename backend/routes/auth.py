@@ -42,12 +42,24 @@ def register():
 def login():
     """Inicio de sesión y generación de token JWT"""
     data = request.get_json()
-    usuario = Usuario.query.filter_by(usuario=data.get('usuario')).first()
+    print("📩 Datos recibidos:", data.get('usuario'))  
 
-    if not usuario or not usuario.check_password(data.get('contrasena')):
+    usuario = Usuario.query.filter_by(usuario=data.get('usuario')).first()
+    print("🔍 Usuario encontrado:", usuario)  
+
+    if not usuario:
+        print("❌ Usuario no encontrado")
         return jsonify({"error": "Credenciales incorrectas"}), 401
 
-    # 📌 Ahora el token incluye el rol
-    access_token = create_access_token(identity=str(usuario.legajo), additional_claims={"rol": usuario.rol})
+    print("🔐 Contraseña ingresada:", data.get('contrasena'))
+    print("💾 Contraseña almacenada:", usuario.contrasena)
+    print("✅ Verificación de contraseña:", check_password_hash(usuario.contrasena, data.get('contrasena')))
 
+    if not check_password_hash(usuario.contrasena, data.get('contrasena')):
+        print("❌ Contraseña incorrecta")
+        return jsonify({"error": "Credenciales incorrectas"}), 401
+
+    access_token = create_access_token(identity=str(usuario.legajo), additional_claims={"rol": usuario.rol})
+    print("🔑 Token generado:", access_token)
     return jsonify({"access_token": access_token, "usuario": usuario.usuario, "rol": usuario.rol})
+

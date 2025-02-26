@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import { useState } from "react";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
@@ -23,7 +23,7 @@ const App = () => {
       <Routes>
         {/* 🌎 Rutas públicas con Navbar y Footer */}
         <Route
-          path="/STAT"
+          path="/"
           element={
             <>
               <Navbar />

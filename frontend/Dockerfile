@@ -1,14 +1,16 @@
-# Usar Node.js para construir el frontend
+# Etapa 1: Construcción del frontend
 FROM node:20 AS build
 
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm install
-COPY . .
+COPY . . 
 RUN npm run build
 
-# Copiar el build al volumen compartido con Nginx
-RUN mkdir -p /app/build
-RUN cp -r /app/build /app/build_output
+# Etapa 2: Servir la aplicación con `serve`
+FROM node:20 AS production
+WORKDIR /app
+COPY --from=build /app/build ./build
+RUN npm install -g serve
+CMD ["serve", "-s", "build", "-l", "3000"]
 
-CMD ["echo", "Frontend build listo"]

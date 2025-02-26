@@ -17,6 +17,9 @@
     text-align: center;
     color: white;
     transition: transform 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .auth-card:hover {
@@ -34,7 +37,7 @@
 
 /* === Campos de Entrada === */
 .auth-card form input {
-    width: 100%;
+    width: 94%;
     margin-bottom: 1rem;
     padding: 12px;
     font-size: 16px;
@@ -52,7 +55,7 @@
 
 /* === Botón de Enviar === */
 .auth-card form button {
-    width: 100%;
+    width: 100%; /* Asegurar que el botón tenga el mismo ancho que los inputs */
     padding: 12px;
     font-size: 16px;
     font-weight: bold;
@@ -62,7 +65,9 @@
     border-radius: 6px;
     cursor: pointer;
     transition: all 0.3s;
+    display: block; /* Asegurar que ocupe todo el ancho del contenedor */
 }
+
 
 .auth-card form button:hover {
     background-color: #e67e22;
