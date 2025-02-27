@@ -5,6 +5,7 @@ from services.verify_users import verifyuser
 categories_bp = Blueprint('categories', __name__)
 
 @categories_bp.route('/api/categories', methods=['GET'])
+@jwt_required()
 def get_categories():
     error_response = verifyuser()
     if error_response:

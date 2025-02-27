@@ -10,7 +10,7 @@ class Usuario(db.Model):
     dni = db.Column(db.String(20), unique=True, nullable=False)
     usuario = db.Column(db.String(255), unique=True, nullable=False)
     email = db.Column(db.String(255), unique=True, nullable=False)
-    _contrasena = db.Column('contrasena', db.String(255), nullable=False)  # Nombre real en la BD
+    _contrasena = db.Column('contrasena', db.String(255), nullable=False)  
     rol = db.Column(db.String(50), nullable=False, default='usuario')
     activo = db.Column(db.Boolean, default=True, nullable=False)
     
@@ -23,7 +23,7 @@ class Usuario(db.Model):
         self._contrasena = generate_password_hash(password)
 
     def verificarcontrasena(self, password):
-        return check_password_hash(self._contrasena, password)  # Usa _contrasena
+        return check_password_hash(self._contrasena, password) 
 
     def desactivar(self):
         """Marca al usuario como inactivo."""

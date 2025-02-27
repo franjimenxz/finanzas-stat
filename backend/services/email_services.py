@@ -9,7 +9,7 @@ def enviar_email(destinatario, asunto, mensaje):
     msg['To'] = destinatario
     msg['Subject'] = asunto
 
-    # 📌 Asegurar codificación UTF-8 para evitar el error de ASCII
+    # Asegurar codificación UTF-8 para evitar el error de ASCII
     msg.attach(MIMEText(mensaje.encode('utf-8').decode('utf-8'), 'plain', 'utf-8'))
 
     try:

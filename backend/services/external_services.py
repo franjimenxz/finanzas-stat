@@ -1,33 +1,29 @@
 import requests
 from config import Config
 from models import Usuario
-def report_ticket(usuario, descripcion):
-    """ Envía un reporte de problema a la API Mock """
+def report_ticket(usuario, dni, descripcion):
+    """ Envía un reporte de problema a la API Mock usando los datos del usuario autenticado """
     payload = {
-        "usuario": usuario,
-        "contrasena": "123456",
+        "usuario": usuario, 
+        "contrasena": dni,  
         "reporte": descripcion
     }
 
     try:
         response = requests.post(Config.MOCK_TICKETS_URL, json=payload)
 
-        if response.status_code != 201:
+        if response.status_code not in (200, 201):
             return {"error": "Error al enviar el reporte", "detalle": response.text}, response.status_code
 
         return {"mensaje": "Reporte enviado con éxito"}, 201
 
     except requests.exceptions.RequestException as e:
         return {"error": "Error de conexión con la API Mock", "detalle": str(e)}, 500
-
-
-import requests
-from config import Config
-
+    
+    
 def send_review(usuario, dni, stars, descripcion):
     """ Registra un usuario y su review en la API Mock """
     try:
-        # 1️⃣ Registrar usuario en la API Mock
         response_usuario = requests.post(
             Config.MOCK_USER_URL, json={"Usuario": usuario, "DNI": dni}
         )
@@ -43,7 +39,7 @@ def send_review(usuario, dni, stars, descripcion):
         if not id_usuario:
             return {"error": "No se recibió idUsuario en la respuesta"}, 500
 
-        # 2️⃣ Registrar review en la API Mock con el idUsuario obtenido
+
         data_review = {"id": id_usuario, "stars": stars, "description": descripcion}
         response_review = requests.post(
             Config.MOCK_REVIEWS_URL, json=data_review
@@ -63,7 +59,8 @@ def send_review(usuario, dni, stars, descripcion):
             "error": "Error de conexión con las APIs",
             "detalle": str(e)
         }, 500
-
+        
+        
 def obtener_usuario_desde_bd(user_id):
     """ Obtiene el nombre y DNI de un usuario autenticado desde la base de datos """
     usuario = Usuario.query.filter_by(legajo=user_id).first()

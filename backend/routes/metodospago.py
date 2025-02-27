@@ -7,6 +7,7 @@ payment_bp = Blueprint('payment', __name__)
 
 
 @payment_bp.route('/api/payment_methods', methods=['GET'])
+@jwt_required()
 def get_payment_methods():
     error_response = verifyuser()
     if error_response:
