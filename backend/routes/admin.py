@@ -14,14 +14,21 @@ def admin_dashboard():
         return jsonify({"error": "Acceso denegado"}), 403
 
     usuarios = Usuario.query.all()
-    usuarios_lista = [{"legajo": u.legajo, "nombre": u.nombre, "usuario": u.usuario, "email": u.email, "rol": u.rol} for u in usuarios]
+    usuarios_lista = [{
+        "legajo": u.legajo,
+        "nombre": u.nombre,
+        "usuario": u.usuario,
+        "email": u.email,
+        "rol": u.rol,
+        "activo": u.activo
+    } for u in usuarios]
 
     return jsonify({"usuarios": usuarios_lista})
 
-
-@admin_bp.route('/api/admin/delete_user/<int:legajo>', methods=['DELETE'])
+@admin_bp.route('/api/admin/deactivate_user/<int:legajo>', methods=['PATCH'])
 @jwt_required()
-def delete_user(legajo):
+def deactivate_user(legajo):
+    """Desactiva un usuario en lugar de eliminarlo"""
     claims = get_jwt()
     if claims["rol"] != "admin":
         return jsonify({"error": "Acceso denegado"}), 403
@@ -30,14 +37,32 @@ def delete_user(legajo):
     if not usuario:
         return jsonify({"error": "Usuario no encontrado"}), 404
 
-    db.session.delete(usuario)  # Elimina el usuario de la BD
-    db.session.commit()  # Guarda los cambios
+    usuario.activo = False
+    db.session.commit()
 
-    return jsonify({"message": "Usuario eliminado con éxito"}), 200
+    return jsonify({"message": f"Usuario {usuario.usuario} desactivado con éxito"}), 200
+
+@admin_bp.route('/api/admin/reactivate_user/<int:legajo>', methods=['PATCH'])
+@jwt_required()
+def reactivate_user(legajo):
+    """Reactivar un usuario desactivado"""
+    claims = get_jwt()
+    if claims["rol"] != "admin":
+        return jsonify({"error": "Acceso denegado"}), 403
+
+    usuario = Usuario.query.filter_by(legajo=legajo).first()
+    if not usuario:
+        return jsonify({"error": "Usuario no encontrado"}), 404
+
+    usuario.activo = True 
+    db.session.commit()
+
+    return jsonify({"message": f"Usuario {usuario.usuario} reactivado con éxito"}), 200
 
 @admin_bp.route('/api/admin/add_user', methods=['POST'])
 @jwt_required()
 def add_user():
+    """Agregar un nuevo usuario"""
     claims = get_jwt()
     if claims["rol"] != "admin":
         return jsonify({"error": "Acceso denegado"}), 403
@@ -53,7 +78,15 @@ def add_user():
     if not usuario or not nombre or not dni or not email or not contrasena:
         return jsonify({"error": "Faltan datos"}), 400
 
-    nuevo_usuario = Usuario(usuario=usuario, nombre=nombre, dni=dni, email=email, contrasena=contrasena, rol=rol)
+    nuevo_usuario = Usuario(
+        usuario=usuario,
+        nombre=nombre,
+        dni=dni,
+        email=email,
+        rol=rol,
+        activo=True  
+    )
+    nuevo_usuario.contrasena = contrasena
     db.session.add(nuevo_usuario)
     db.session.commit()
 

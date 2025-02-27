@@ -19,16 +19,17 @@ def register():
         usuario=data['usuario'],
         nombre=data['nombre'],
         dni=data['dni'],
-        email=data['email'],  # 📌 Nuevo campo
-        rol=data.get('rol','usuario')
+        email=data['email'],
+        rol=data.get('rol', 'usuario'),
+        activo=True
     )
-    nuevo_usuario.set_password(data['contrasena'])
+    nuevo_usuario.contrasena = data['contrasena']
 
     try:
         db.session.add(nuevo_usuario)
         db.session.commit()
 
-        # 📌 Enviar correo de bienvenida
+        # Enviar correo de bienvenida
         asunto = "Registro exitoso en Finanzas-Stat"
         mensaje = f"Hola {data['nombre']}, tu registro fue exitoso en Finanzas-Stat."
         enviar_email(data['email'], asunto, mensaje)
@@ -42,24 +43,39 @@ def register():
 def login():
     """Inicio de sesión y generación de token JWT"""
     data = request.get_json()
-    print("📩 Datos recibidos:", data.get('usuario'))  
+    print("Datos recibidos:", data.get('usuario'))  
 
     usuario = Usuario.query.filter_by(usuario=data.get('usuario')).first()
-    print("🔍 Usuario encontrado:", usuario)  
+    print("Usuario encontrado:", usuario)  
 
     if not usuario:
-        print("❌ Usuario no encontrado")
+        print(" Usuario no encontrado")
         return jsonify({"error": "Credenciales incorrectas"}), 401
 
-    print("🔐 Contraseña ingresada:", data.get('contrasena'))
-    print("💾 Contraseña almacenada:", usuario.contrasena)
-    print("✅ Verificación de contraseña:", check_password_hash(usuario.contrasena, data.get('contrasena')))
+    if not usuario.activo:
+        print(" Usuario desactivado")
+        return jsonify({"error": "Cuenta desactivada, contacta al administrador"}), 403
 
-    if not check_password_hash(usuario.contrasena, data.get('contrasena')):
-        print("❌ Contraseña incorrecta")
+    print(" Contraseña ingresada:", data.get('contrasena'))
+    print("Contraseña almacenada (hash):", usuario._contrasena)
+    print(" Verificación de contraseña:", check_password_hash(usuario._contrasena, data.get('contrasena')))
+
+    if not check_password_hash(usuario._contrasena, data.get('contrasena')):
+        print(" Contraseña incorrecta")
         return jsonify({"error": "Credenciales incorrectas"}), 401
 
     access_token = create_access_token(identity=str(usuario.legajo), additional_claims={"rol": usuario.rol})
-    print("🔑 Token generado:", access_token)
+    print(" Token generado:", access_token)
     return jsonify({"access_token": access_token, "usuario": usuario.usuario, "rol": usuario.rol})
 
+@auth_bp.route('/api/protected', methods=['GET'])
+@jwt_required()
+def protected():
+    """Ejemplo de una ruta protegida que verifica si el usuario está activo"""
+    legajo = get_jwt_identity()
+    usuario = Usuario.query.get(legajo)
+
+    if not usuario or not usuario.activo:
+        return jsonify({"error": "Cuenta desactivada. No tienes acceso."}), 403
+
+    return jsonify({"message": "Acceso permitido", "usuario": usuario.usuario})

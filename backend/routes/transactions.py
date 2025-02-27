@@ -1,13 +1,16 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from models import Ingreso, Egreso, db
-
+from services.verify_users import verifyuser
 transactions_bp = Blueprint('transactions', __name__)
 
 @transactions_bp.route('/api/add_income', methods=['POST'])
 @jwt_required()
 def add_income():
     """Agregar un ingreso"""
+    error_response = verifyuser()
+    if error_response:
+        return error_response
     user_id = get_jwt_identity()
     data = request.get_json()
 
@@ -28,6 +31,9 @@ def add_income():
 @transactions_bp.route('/api/add_expense', methods=['POST'])
 @jwt_required()
 def add_expense():
+    error_response = verifyuser()
+    if error_response:
+        return error_response
     """Agregar un egreso"""
     user_id = get_jwt_identity()
     data = request.get_json()
@@ -50,6 +56,9 @@ def add_expense():
 @transactions_bp.route('/api/incomes', methods=['GET'])
 @jwt_required()
 def get_incomes():
+    error_response = verifyuser()
+    if error_response:
+        return error_response
     """Obtener ingresos del usuario autenticado"""
     user_id = get_jwt_identity()
     ingresos = Ingreso.query.filter_by(legajousuario=user_id).all()
@@ -65,6 +74,9 @@ def get_incomes():
 @transactions_bp.route('/api/expenses', methods=['GET'])
 @jwt_required()
 def get_expenses():
+    error_response = verifyuser()
+    if error_response:
+        return error_response
     """Obtener egresos del usuario autenticado"""
     user_id = get_jwt_identity()
     egresos = Egreso.query.filter_by(legajousuario=user_id).all()

@@ -21,10 +21,10 @@ from routes.categories import categories_bp
 from routes.metodospago import payment_bp
 from routes.transactions import transactions_bp
 from routes.history import history_bp
-from routes.integrations import integrations_bp
 from routes.admin import admin_bp
 from routes.tickets import tickets_bp
-from routes.review import valoracion_bp
+from routes.reviews import reviews_bp
+
 
 app.register_blueprint(auth_bp)
 app.register_blueprint(dashboard_bp)
@@ -32,9 +32,9 @@ app.register_blueprint(payment_bp)
 app.register_blueprint(categories_bp)
 app.register_blueprint(transactions_bp)
 app.register_blueprint(history_bp)
-app.register_blueprint(integrations_bp)
 app.register_blueprint(admin_bp)
 app.register_blueprint(tickets_bp)
-app.register_blueprint(valoracion_bp)
+app.register_blueprint(reviews_bp)
+
 if __name__ == '__main__':
     app.run(debug=True)

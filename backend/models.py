@@ -1,5 +1,6 @@
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy.ext.hybrid import hybrid_property
 from extensions import db
 
 class Usuario(db.Model):
@@ -9,32 +10,49 @@ class Usuario(db.Model):
     dni = db.Column(db.String(20), unique=True, nullable=False)
     usuario = db.Column(db.String(255), unique=True, nullable=False)
     email = db.Column(db.String(255), unique=True, nullable=False)
-    contrasena = db.Column(db.String(255), nullable=False)
+    _contrasena = db.Column('contrasena', db.String(255), nullable=False)  # Nombre real en la BD
     rol = db.Column(db.String(50), nullable=False, default='usuario')
+    activo = db.Column(db.Boolean, default=True, nullable=False)
+    
+    @hybrid_property
+    def contrasena(self):
+        raise AttributeError("La contraseña no se puede acceder directamente.")
+    
+    @contrasena.setter
+    def contrasena(self, password):
+        self._contrasena = generate_password_hash(password)
 
-    def set_password(self, password):
-        self.contrasena = generate_password_hash(password)
+    def verificarcontrasena(self, password):
+        return check_password_hash(self._contrasena, password)  # Usa _contrasena
 
-    def check_password(self, password):
-        return check_password_hash(self.contrasena, password)
+    def desactivar(self):
+        """Marca al usuario como inactivo."""
+        self.activo = False
+        db.session.commit()
 
+    def reactivar(self):
+        """Reactiva al usuario."""
+        self.activo = True
+        db.session.commit()
+        
+        
 class Categoria(db.Model):
     __tablename__ = 'categorias'
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(255), nullable=False)
     tipo = db.Column(db.String(50), nullable=False)  # "Ingreso" o "Egreso"
+
     @classmethod
     def obtener_por_tipo(cls, tipo):
-        """Devuelve todas las categorías de un tipo específico."""
         return cls.query.filter_by(tipo=tipo).all()
 
     @classmethod
     def crear(cls, nombre, tipo):
-        """Crea una nueva categoría."""
         nueva_categoria = cls(nombre=nombre, tipo=tipo)
         db.session.add(nueva_categoria)
         db.session.commit()
         return nueva_categoria
+
 class MetodoPago(db.Model):
     __tablename__ = 'metodopago'
     id = db.Column(db.Integer, primary_key=True)
@@ -51,6 +69,7 @@ class Ingreso(db.Model):
 
     categoria = db.relationship('Categoria', backref='ingresos')
     usuario = db.relationship('Usuario', backref='ingresos')
+
     @property
     def categoria_nombre(self):
         return self.categoria.nombre if self.categoria else "Sin categoría"
@@ -75,18 +94,16 @@ class Egreso(db.Model):
     
 class Reporte(db.Model):
     __tablename__ = 'reportes'
-    
     id = db.Column(db.Integer, primary_key=True)
-    legajousuario = db.Column(db.Integer, db.ForeignKey('usuarios.legajo'), nullable=False)  # Usuario que reporta
-    descripcion = db.Column(db.Text, nullable=False)  # Descripción del problema
-    fecha_reporte = db.Column(db.DateTime, default=datetime.utcnow)  # Fecha del reporte
-    estado = db.Column(db.String(50), default="pendiente")  # Estado del reporte: "pendiente", "en proceso", "resuelto"
+    legajousuario = db.Column(db.Integer, db.ForeignKey('usuarios.legajo'), nullable=False)
+    descripcion = db.Column(db.Text, nullable=False)
+    fecha_reporte = db.Column(db.DateTime, default=datetime.utcnow)
+    estado = db.Column(db.String(50), default="pendiente")
 
-    usuario = db.relationship('Usuario', backref='reportes')  # Relación con el usuario que reporta
+    usuario = db.relationship('Usuario', backref='reportes')
 
     @classmethod
     def crear(cls, legajousuario, descripcion):
-        """Crea un nuevo reporte y lo guarda en la base de datos."""
         nuevo_reporte = cls(legajousuario=legajousuario, descripcion=descripcion)
         db.session.add(nuevo_reporte)
         db.session.commit()
@@ -94,12 +111,10 @@ class Reporte(db.Model):
 
     @classmethod
     def obtener_por_usuario(cls, legajousuario):
-        """Obtiene todos los reportes de un usuario."""
         return cls.query.filter_by(legajousuario=legajousuario).all()
 
     @classmethod
     def actualizar_estado(cls, reporte_id, nuevo_estado):
-        """Actualiza el estado de un reporte."""
         reporte = cls.query.get(reporte_id)
         if reporte:
             reporte.estado = nuevo_estado

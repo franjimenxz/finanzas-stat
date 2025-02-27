@@ -1,11 +1,14 @@
 from flask import Blueprint, request, jsonify
 from models import Categoria  # Manteniendo tu estructura
 from flask_jwt_extended import jwt_required, get_jwt
-
+from services.verify_users import verifyuser
 categories_bp = Blueprint('categories', __name__)
 
 @categories_bp.route('/api/categories', methods=['GET'])
 def get_categories():
+    error_response = verifyuser()
+    if error_response:
+        return error_response
     tipo = request.args.get('tipo')
     if not tipo or tipo not in ['ingreso', 'egreso']:
         return jsonify({"error": "Tipo de categoría inválido"}), 400

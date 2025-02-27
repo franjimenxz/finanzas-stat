@@ -2,18 +2,21 @@ from flask import Blueprint, request, jsonify
 from models import MetodoPago
 from flask_jwt_extended import jwt_required, get_jwt
 from extensions import db
-
+from services.verify_users import verifyuser
 payment_bp = Blueprint('payment', __name__)
 
-# 🔹 Obtener métodos de pago
+
 @payment_bp.route('/api/payment_methods', methods=['GET'])
 def get_payment_methods():
+    error_response = verifyuser()
+    if error_response:
+        return error_response
     metodos = MetodoPago.query.all()
     return jsonify({
         "metodos": [{"id": m.id, "nombre": m.nombre} for m in metodos]
     })
 
-# 🔹 Agregar método de pago (solo admin)
+
 @payment_bp.route('/api/payment_methods', methods=['POST'])
 @jwt_required()
 def add_payment_method():

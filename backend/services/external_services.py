@@ -1,93 +1,70 @@
 import requests
 from config import Config
-from models import Reporte, db
-#def get_tickets(user_id):
- #   """
- #   Obtiene los tickets del usuario desde la API externa.
- #   Si la API no está disponible, devuelve una respuesta simulada.
- #   """
- #   if Config.TICKETS_API_URL:
- #       url = f"{Config.TICKETS_API_URL}/api/tickets?user_id={user_id}"
-
-#        try:
- #           response = requests.get(url, timeout=5)  # Timeout de 5 segundos
-   #         if response.status_code == 200:
-  #              data = response.json()
-    #            return data.get("tickets", [])  # Asegurar que devuelve una lista de tickets
-     #       else:
-      #          return {"error": "No se pudo obtener los tickets", "detalles": response.text}
-       # except requests.exceptions.RequestException as e:
-        #    return {"error": "Error de conexión con el sistema de tickets", "detalles": str(e)}
-
-    # Simulación si la API no está disponible
-    #return [
-     #   {"id": 1, "subject": "Simulación de ticket", "description": "Descripción de prueba", "status": "pendiente"},
-    #    {"id": 2, "subject": "Otro ticket simulado", "description": "Otro problema de prueba", "status": "resuelto"}
-    #]
-
-
-#def report_issue(user_id, descripcion):
- #   """
-  #  Reporta un problema enviándolo a la API externa.
-   # Si la API no está disponible, devuelve un error.
-    #"""
-    #if Config.TICKETS_API_URL:
-     #   url = f"{Config.TICKETS_API_URL}/api/tickets"
-#
- #       payload = {
-  #          "user_id": user_id,
-   #         "description": descripcion
-    #    }
-     #   print(f"Enviando reporte a {url} con payload:", payload)  # ✅ Verificar qué se está enviando
-##
-  #      try:
-   #         response = requests.post(url, json=payload, timeout=5)  # Timeout de 5 segundos
-    #        if response.status_code in [200, 201]:  # Éxito al crear el ticket
-     #           return response.json()
-      #      else:
-       #         return {"error": "No se pudo enviar el ticket", "detalles": response.text}
-        #except requests.exceptions.RequestException as e:
-         #   return {"error": "Error de conexión con el sistema de tickets", "detalles": str(e)}
-#
- #   return {"error": "API de tickets no configurada"}
-
-
-def get_tickets(user_id):
-    """
-    Simula la obtención de tickets de un usuario desde la base de datos local.
-    """
-    return [
-        {
-            "id": ticket.id,
-            "description": ticket.descripcion,
-            "status": ticket.estado,
-            "fecha_reporte": ticket.fecha_reporte.strftime("%Y-%m-%d %H:%M:%S"),
-        }
-        for ticket in Reporte.query.filter_by(legajousuario=user_id).all()
-    ]
-
-
-def report_issue(user_id, descripcion):
-    """
-    Simula el reporte de un problema creando un ticket en la base de datos.
-    """
-    nuevo_ticket = Reporte(legajousuario=user_id, descripcion=descripcion)
-    db.session.add(nuevo_ticket)
-    db.session.commit()
-
-    return {
-        "message": "Ticket registrado con éxito (modo offline)",
-        "ticket_id": nuevo_ticket.id,
-        "status": nuevo_ticket.estado,
+from models import Usuario
+def report_ticket(usuario, descripcion):
+    """ Envía un reporte de problema a la API Mock """
+    payload = {
+        "usuario": usuario,
+        "contrasena": "123456",
+        "reporte": descripcion
     }
 
+    try:
+        response = requests.post(Config.MOCK_TICKETS_URL, json=payload)
 
-def get_reviews():
-    """Simula la obtención de reseñas desde la API externa"""
-    if Config.REVIEWS_API_URL:
-        url = f"{Config.REVIEWS_API_URL}/reviews"
-        response = requests.get(url)
-        return response.json() if response.status_code == 200 else None
-    else:
-        # Simulación hasta que la API esté lista
-        return [{"id": 1, "user_id": 2, "rating": 5, "comment": "Sistema excelente"}]
+        if response.status_code != 201:
+            return {"error": "Error al enviar el reporte", "detalle": response.text}, response.status_code
+
+        return {"mensaje": "Reporte enviado con éxito"}, 201
+
+    except requests.exceptions.RequestException as e:
+        return {"error": "Error de conexión con la API Mock", "detalle": str(e)}, 500
+
+
+import requests
+from config import Config
+
+def send_review(usuario, dni, stars, descripcion):
+    """ Registra un usuario y su review en la API Mock """
+    try:
+        # 1️⃣ Registrar usuario en la API Mock
+        response_usuario = requests.post(
+            Config.MOCK_USER_URL, json={"Usuario": usuario, "DNI": dni}
+        )
+
+        # Aceptar tanto 200 como 201 como respuesta exitosa
+        if response_usuario.status_code not in (200, 201):
+            return {
+                "error": "Error al registrar usuario",
+                "detalle": response_usuario.text,
+            }, response_usuario.status_code
+
+        id_usuario = response_usuario.json().get("idUsuario")
+        if not id_usuario:
+            return {"error": "No se recibió idUsuario en la respuesta"}, 500
+
+        # 2️⃣ Registrar review en la API Mock con el idUsuario obtenido
+        data_review = {"id": id_usuario, "stars": stars, "description": descripcion}
+        response_review = requests.post(
+            Config.MOCK_REVIEWS_URL, json=data_review
+        )
+
+        # Aceptar tanto 200 como 201 como respuesta exitosa
+        if response_review.status_code not in (200, 201):
+            return {
+                "error": "Error al registrar review",
+                "detalle": response_review.text,
+            }, response_review.status_code
+
+        return {"mensaje": "Usuario y review registrados con éxito"}, 201
+
+    except requests.exceptions.RequestException as e:
+        return {
+            "error": "Error de conexión con las APIs",
+            "detalle": str(e)
+        }, 500
+
+def obtener_usuario_desde_bd(user_id):
+    """ Obtiene el nombre y DNI de un usuario autenticado desde la base de datos """
+    usuario = Usuario.query.filter_by(legajo=user_id).first()
+    return {"nombre": usuario.nombre, "dni": usuario.dni} if usuario else None
