@@ -30,7 +30,7 @@ export const register = async (usuario, nombre, dni, email, contrasena) => {
     const response = await fetch(`${API_URL}/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ usuario, nombre, dni, email, contrasena }),  // 📌 Agregado email
+        body: JSON.stringify({ usuario, nombre, dni, email, contrasena }),  //Agregado email
     });
 
     if (!response.ok) {
@@ -261,7 +261,7 @@ export const getPaymentMethods = async (token) => {
         const data = await response.json();
         console.log("Métodos de pago obtenidos:", data);  // 🔹 Verifica qué devuelve la API
 
-        return data.metodos || [];  // ✅ Asegurar retorno correcto
+        return data.metodos || [];  //   Asegurar retorno correcto
     } catch (error) {
         console.error("Error al obtener métodos de pago:", error);
         return []; // Retorna un array vacío en caso de error
@@ -373,56 +373,23 @@ export const downloadHistoryPDF = async (token) => {
 
 
 /**
- * Obtiene los tickets del usuario desde el backend.
- * @param {string} token - Token de autenticación.
- */
-export const getUserTickets = async (token) => {
-    if (!token) {
-        console.error("❌ Error: No hay token disponible.");
-        return { error: "No hay sesión activa." };
-    }
-
-    try {
-        console.log("📡 Solicitando tickets...");
-        const response = await fetch(`${API_URL}/tickets`, {
-            method: "GET",
-            headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json"
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error(`Error en la API: ${response.status} - ${response.statusText}`);
-        }
-
-        const data = await response.json();
-        console.log("✅ Tickets obtenidos:", data);
-        return data;
-    } catch (error) {
-        console.error("❌ Error al obtener tickets:", error);
-        return { error: "No se pudieron obtener los tickets." };
-    }
-};
-
-/**
  * Reporta un problema al backend.
  * @param {string} token - Token de autenticación.
  * @param {string} descripcion - Descripción del problema.
  */
 export const reportIssue = async (token, descripcion) => {
     if (!token) {
-        console.error("❌ Error: No hay token disponible.");
+        console.error("  Error: No hay token disponible.");
         return { error: "No hay sesión activa." };
     }
 
     if (!descripcion || descripcion.trim().length < 5) {
-        console.error("❌ Error: Descripción inválida.");
+        console.error("  Error: Descripción inválida.");
         return { error: "La descripción debe tener al menos 5 caracteres." };
     }
 
     try {
-        console.log("📡 Enviando reporte...");
+        console.log("  Enviando reporte...");
         const response = await fetch(`${API_URL}/external/tickets`, {
             method: "POST",
             headers: {
@@ -437,10 +404,10 @@ export const reportIssue = async (token, descripcion) => {
         }
 
         const result = await response.json();
-        console.log("✅ Reporte enviado con éxito:", result);
+        console.log("  Reporte enviado con éxito:", result);
         return result;
     } catch (error) {
-        console.error("❌ Error al reportar problema:", error);
+        console.error("  Error al reportar problema:", error);
         return { error: "No se pudo reportar el problema." };
     }
 };
@@ -456,22 +423,22 @@ export const reportIssue = async (token, descripcion) => {
  */
 export const sendReview = async (token, stars, descripcion) => {
     if (!token) {
-        console.error("❌ Error: No hay token disponible.");
+        console.error("  Error: No hay token disponible.");
         return { error: "No hay sesión activa." };
     }
 
     if (!stars || stars < 1 || stars > 5) {
-        console.error("❌ Error: Calificación inválida.");
+        console.error("  Error: Calificación inválida.");
         return { error: "La calificación debe estar entre 1 y 5 estrellas." };
     }
 
     if (!descripcion || descripcion.trim().length < 5) {
-        console.error("❌ Error: Descripción inválida.");
+        console.error("  Error: Descripción inválida.");
         return { error: "La descripción debe tener al menos 5 caracteres." };
     }
 
     try {
-        console.log("📡 Enviando reseña...");
+        console.log("  Enviando reseña...");
         const response = await fetch(`${API_URL}/external/reviews`, {
             method: "POST",
             headers: {
@@ -489,10 +456,10 @@ export const sendReview = async (token, stars, descripcion) => {
         }
 
         const result = await response.json();
-        console.log("✅ Reseña enviada con éxito:", result);
+        console.log("  Reseña enviada con éxito:", result);
         return result;
     } catch (error) {
-        console.error("❌ Error al enviar reseña:", error);
+        console.error("  Error al enviar reseña:", error);
         return { error: "No se pudo enviar la reseña." };
     }
 };
@@ -504,12 +471,12 @@ export const sendReview = async (token, stars, descripcion) => {
  */
 export const getUserRating = async (token) => {
     if (!token) {
-        console.error("❌ Error: No hay token disponible.");
+        console.error("  Error: No hay token disponible.");
         return { error: "No hay sesión activa." };
     }
 
     try {
-        console.log("📡 Solicitando calificación del usuario...");
+        console.log("  Solicitando calificación del usuario...");
         const response = await fetch(`${API_URL}/external/reviews`, {
             method: "GET",
             headers: {
@@ -523,10 +490,10 @@ export const getUserRating = async (token) => {
         }
 
         const data = await response.json();
-        console.log("✅ Calificación obtenida:", data);
+        console.log("  Calificación obtenida:", data);
         return data;
     } catch (error) {
-        console.error("❌ Error al obtener calificación:", error);
+        console.error(" Error al obtener calificación:", error);
         return { error: "No se pudo obtener la calificación." };
-    }
+    }   
 };

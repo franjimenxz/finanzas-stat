@@ -46,6 +46,10 @@ const AdminDashboard = () => {
     const token = localStorage.getItem("token");
     try {
       if (isActive) {
+        // Mostrar confirmación antes de desactivar
+        if (!window.confirm("¿Está seguro que desea desactivar el usuario?")) {
+          return;
+        }
         await deactivateUser(token, legajo);
       } else {
         await reactivateUser(token, legajo);
@@ -146,7 +150,7 @@ const AdminDashboard = () => {
             }`}
             onClick={() => setActiveTab("sistema")}
           >
-            ⚙️ Sistema
+            Sistema
           </button>
         </div>
 

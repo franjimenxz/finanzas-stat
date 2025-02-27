@@ -16,7 +16,7 @@ const RateSystem = () => {
     }
 
     try {
-      console.log("📡 Enviando review con rating:", rating, "Comentario:", comentario);
+      console.log(" Enviando review con rating:", rating, "Comentario:", comentario);
       await sendReview(token, rating, comentario);
       setMessage("Gracias por tu calificación.");
       setYaCalificado(true);

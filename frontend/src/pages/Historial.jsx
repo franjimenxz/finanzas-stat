@@ -101,7 +101,7 @@ const History = () => {
                           onClick={() => handleDelete("ingreso", item.codigo)}
                           className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md"
                         >
-                          🗑️ Eliminar
+                          Eliminar
                         </button>
                       </td>
                     </tr>
@@ -143,7 +143,7 @@ const History = () => {
                           onClick={() => handleDelete("egreso", item.codigo)}
                           className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md"
                         >
-                          🗑️ Eliminar
+                           Eliminar
                         </button>
                       </td>
                     </tr>

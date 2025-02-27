@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import logo from "../assets/images/logo.png";
 
 const Sidebar = ({ setAuth, isOpen, toggleMenu }) => {
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ const Sidebar = ({ setAuth, isOpen, toggleMenu }) => {
       {/* Logo */}
       <div className="text-center">
         <NavLink to="/" onClick={toggleMenu}>
-          <img src="/logo.png" alt="Inicio" className="w-32 mx-auto mb-4" />
+          <img src={logo} alt="Inicio" className="w-32 mx-auto mb-4" />
         </NavLink>
       </div>
 
