@@ -3,40 +3,56 @@ version: '3.8'
 services:
   db:
     image: postgres:15
+    container_name: postgres_db
     restart: always
     environment:
-      POSTGRES_DB: gestionfina
-      POSTGRES_USER: postgre
-      POSTGRES_PASSWORD: TheLegends123
-    volumes:
-      - pgdata:/var/lib/postgresql/data
+      POSTGRES_DB: finanzas_db
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: adminpass
     ports:
       - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
 
   backend:
     build: ./backend
+    container_name: flask_app
     restart: always
     depends_on:
       - db
     environment:
-      SQLALCHEMY_DATABASE_URI: postgresql://postgre:TheLegends123@db/gestionfina
+      DATABASE_URL: postgresql://admin:adminpass@db/finanzas_db
+      FLASK_APP: app.py
+      FLASK_ENV: production
+      SECRET_KEY: supersecretkey
       MAIL_SERVER: smtp.gmail.com
       MAIL_PORT: 587
       MAIL_USERNAME: "financierastat@gmail.com"
-      MAIL_PASSWORD: "gzsv rjwl qcjr umxk"
+      MAIL_PASSWORD: "wtvu lphn hctt ikmc"
+      TICKETS : "https://147.79.83.153:5000/api/external/tickets/simulacion"
+      CALIFICACIONU : "https://147.79.83.153:500/api/external/reviews/Simulacion/crearUsuario"
+      CALIFICACIONP : "https://147.79.83.153:500/api/external/reviews/Simulacion/crearReview"
     ports:
       - "5000:5000"
+    volumes:
+      - ./backend:/app
+    command: gunicorn -w 4 -b 0.0.0.0:5000 app:app
 
   frontend:
     build: ./frontend
+    container_name: react_app
     restart: always
     depends_on:
       - backend
-    expose:
-      - "3000"
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+    command: npm run preview
 
   nginx:
     image: nginx:latest
+    container_name: nginx_proxy
     restart: always
     depends_on:
       - frontend
@@ -48,4 +64,3 @@ services:
 
 volumes:
   pgdata:
-

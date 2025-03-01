@@ -1,4 +1,4 @@
-const API_URL = "http://127.0.0.1:5000/api";
+const API_URL = "http://147.79.83.153:5000/api";
 
 export const apiRequest = async (url, options = {}) => {
     const token = localStorage.getItem("token");

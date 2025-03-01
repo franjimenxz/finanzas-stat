@@ -1,0 +1,17 @@
+# Usa una imagen base de Node.js
+FROM node:18
+
+WORKDIR /app
+
+# Instalar dependencias y construir el proyecto
+COPY package.json package-lock.json ./
+RUN npm install
+
+COPY . .
+
+RUN npm run build
+
+# Exponer el puerto de desarrollo de Vite
+EXPOSE 5173
+
+CMD ["npm", "run", "preview"]
