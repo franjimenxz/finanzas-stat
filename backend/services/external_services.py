@@ -10,7 +10,7 @@ def report_ticket(usuario, dni, descripcion):
     }
 
     try:
-        response = requests.post(Config.MOCK_TICKETS_URL, json=payload)
+        response = requests.post(Config.MOCK_TICKETS_URL, json=payload) #Esta redirijido a una api propia para simular sin el uso de postman
 
         if response.status_code not in (200, 201):
             return {"error": "Error al enviar el reporte", "detalle": response.text}, response.status_code

@@ -17,6 +17,9 @@ class Config:
     MAIL_PASSWORD = os.getenv("MAIL_PASSWORD")  # No poner directamente la contraseña
     MAIL_DEFAULT_SENDER = os.getenv("MAIL_DEFAULT_SENDER", MAIL_USERNAME)
 
-    MOCK_TICKETS_URL = "https://fd2a4979-0e60-4fe0-a20c-6c7033adeea0.mock.pstmn.io/reporte"
-    MOCK_REVIEWS_URL = "https://70c1f424-979c-485d-b613-b680f4137e29.mock.pstmn.io/registrarReview"
-    MOCK_USER_URL = "https://d7eeb8cd-b270-44e8-afa9-f7e3ee92bbed.mock.pstmn.io/api/nuevoUsuario"
+    #MOCK_TICKETS_URL = "https://fd2a4979-0e60-4fe0-a20c-6c7033adeea0.mock.pstmn.io/reporte"    //URL de Postman
+    MOCK_TICKETS_URL = os.getenv("TICKETS")                                #Url que pega en nuestro enpoint para simular
+    #MOCK_REVIEWS_URL = "https://70c1f424-979c-485d-b613-b680f4137e29.mock.pstmn.io/registrarReview" #URL de Postman
+    MOCK_REVIEWS_URL = os.getenv("CALIFICACIONU")
+    #MOCK_USER_URL = "https://d7eeb8cd-b270-44e8-afa9-f7e3ee92bbed.mock.pstmn.io/api/nuevoUsuario"   #URL de Postman
+    MOCK_USER_URL = os.getenv("CALIFICACIONP")

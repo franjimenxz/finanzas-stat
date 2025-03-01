@@ -35,5 +35,7 @@ app.register_blueprint(history_bp)
 app.register_blueprint(admin_bp)
 app.register_blueprint(tickets_bp)
 app.register_blueprint(reviews_bp)
+
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=False)

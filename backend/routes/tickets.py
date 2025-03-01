@@ -28,3 +28,19 @@ def create_ticket():
     
     result, status_code = report_ticket(nombre, dni, descripcion)
     return jsonify(result), status_code
+
+
+
+@tickets_bp.route('/api/external/tickets/simulacion', methods=['POST'])
+@jwt_required()
+def create_ticket_simulacion():
+    data = request.get_json()
+    if not data.nombre or not data.dni or not data.descripcion:
+        return jsonify({"error": "Datos insuficientes"}), 400
+    
+    return jsonify({
+                        "Mensaje" : "Se ha registrado el reporte, a la brevedad sera respondido",
+                        "Usuario" : data.nombre,
+                        "contrasena": data.dni,
+                        "reporte" : data.descripcion
+                    })
