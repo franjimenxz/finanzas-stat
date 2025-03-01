@@ -1,17 +1,13 @@
-# Usa una imagen base de Node.js
-FROM node:18
+FROM node:18 AS build
 
 WORKDIR /app
-
-# Instalar dependencias y construir el proyecto
 COPY package.json package-lock.json ./
 RUN npm install
 
 COPY . .
-
 RUN npm run build
 
-# Exponer el puerto de desarrollo de Vite
-EXPOSE 5173
-
-CMD ["npm", "run", "preview"]
+FROM nginx:alpine
+COPY --from=build /app/dist /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
